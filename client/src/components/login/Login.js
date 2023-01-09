@@ -75,7 +75,7 @@ export default function Login() {
           <Row>
             <Col>
              <GoogleLogin           
-            clientId='75975302017-8deti4qrdl5i3td94ku8n5dta7hthtb4.apps.googleusercontent.com''
+            clientId='75975302017-8deti4qrdl5i3td94ku8n5dta7hthtb4.apps.googleusercontent.com'
             render={(renderProps) => (
               <button className="loginFormContainer" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled}>
               <img
