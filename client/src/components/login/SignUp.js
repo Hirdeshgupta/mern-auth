@@ -1,16 +1,12 @@
 import React,{useState} from "react";
 import LoginVector from "../../Stock Images/login.png";
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
-import GoogleLogo from "../../Stock Images/googleLogo.png";
-import LinkedInLogo from "../../Stock Images/linkedInLogo.png";
 import BreatheESG from "../../Stock Images/BreatheESG.jpg";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import { Link } from 'react-router-dom';
 import Col from "react-bootstrap/Col";
-import {gapi} from "gapi-script";
-import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { signin, signup } from '../../actions/auth';
@@ -23,44 +19,20 @@ export default function Login() {
         password:"",
         password2:""
       })
-      gapi.load("client:auth2", () => { gapi.client.init({ clientId: "75975302017-8deti4qrdl5i3td94ku8n5dta7hthtb4.apps.googleusercontent.com", plugin_name: "chat", }); });
       const dispatch  = useDispatch();
-      const history = useNavigate();
-      const [userLogin,setUserLogin]=useState({
-        email:"",
-        password:""
-      })
+      const navigate = useNavigate();
       const [isSignin,setIsSignIn]= useState(false);
+      const [errMsg,setErrMsg]= useState("");
       const handleInput=(e)=>{
         const name = e.target.name;
         const value = e.target.value;
     
         setUserSignUp({...userSignUp,[name]:value})
       }
-    
-      const googleSuccess = async (res) => {
-        // console.log(res)
-        const result = res?.profileObj;
-        const token = res?.tokenId;
-    
-        try {
-          dispatch({ type: 'AUTH', data: { result, token } });
-    
-          history.push('/');
-        } catch (error) {
-          console.log(error);
-        }
-      };
-    
-      const googleError = (error) => {console.log(error);console.log('Google Sign In was unsuccessful. Try again later');}
-      const handleSubmit  = async ()=>{
-        console.log(userSignUp)
-        if (isSignin) {
-          dispatch(signin(userSignUp, history));
-        } else {
-          dispatch(signup(userSignUp, history));
-        }
+      const handleSubmit =async()=>{
+        dispatch(signup(userSignUp, navigate,setErrMsg));
       }
+      
       
   return (
     <div className="OuterContainer1">
@@ -196,6 +168,35 @@ export default function Login() {
               }}
             >
         
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p
+                style={{
+                  fontWeight: "750",
+                  color: "red",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {errMsg}
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "0.9rem",
+                marginTop: "7px",
+              }}
+            >
+              Already have a Account?
+              <Link to='/login'>  <div style={{ fontWeight: "750", color: "#66A68F" }}>
+              Log In
+              </div></Link>
             </Col>
           </Row>
         </Container>

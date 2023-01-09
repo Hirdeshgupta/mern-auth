@@ -7,8 +7,8 @@ const RouteGuard = () => {
        let flag = false;
  
        //check user has JWT token
-       localStorage.getItem("token") ? flag=true : flag=false
-      
+       localStorage.getItem("profile") ? flag=true : flag=false
+      console.log(flag)
        return flag
    }
  

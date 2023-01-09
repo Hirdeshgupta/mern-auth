@@ -9,17 +9,16 @@ import BreatheESG from "../../Stock Images/BreatheESG.jpg";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { Link } from 'react-router-dom';
-import { LinearProgress } from "@material-ui/core";
 import {gapi} from "gapi-script";
 import { signin, signup } from '../../actions/auth';
 export default function Login() {
   gapi.load("client:auth2", () => { gapi.client.init({ clientId: "75975302017-8deti4qrdl5i3td94ku8n5dta7hthtb4.apps.googleusercontent.com", plugin_name: "chat", }); });
   const dispatch  = useDispatch();
-  const history = useNavigate();
+  const navigate = useNavigate();
+  const [errorMsg,setErrorMsg]= useState("");
   const [userLogin,setUserLogin]=useState({
     email:"",
     password:""
@@ -31,16 +30,14 @@ export default function Login() {
 
     setUserLogin({...userLogin,[name]:value})
   }
-
   const googleSuccess = async (res) => {
     // console.log(res)
     const result = res?.profileObj;
     const token = res?.tokenId;
-
     try {
       dispatch({ type: 'AUTH', data: { result, token } });
 
-      history.push('/');
+      navigate("/")
     } catch (error) {
       console.log(error);
     }
@@ -48,12 +45,13 @@ export default function Login() {
 
   const googleError = (error) => {console.log(error);console.log('Google Sign In was unsuccessful. Try again later');}
   const handleSubmit  = async ()=>{
-    console.log(userLogin)
-    if (isLogin) {
-      dispatch(signin(userLogin, history));
-    } else {
-      dispatch(signup(userLogin, history));
-    }
+
+    // console.log(userLogin)
+    // if (isLogin) {
+      dispatch(signin(userLogin, navigate,setErrorMsg));
+    // } else {
+    //   dispatch(signup(userLogin, navigate));
+    // }
   }
   
   return (
@@ -143,6 +141,19 @@ export default function Login() {
                   />
                 </Form.Group>
               </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p
+                style={{
+                  fontWeight: "750",
+                  color: "red",
+                  fontSize: "0.9rem",
+                }}
+              >
+                {errorMsg}
+              </p>
             </Col>
           </Row>
           <Row>

@@ -1,7 +1,13 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import SideNavComp from "./SideNavComp";
+import {useNavigate} from "react-router-dom"
 function NavComp() {
+  const navigate = useNavigate();
+  const handleLogOUt= ()=>{
+    localStorage.removeItem("profile");
+    navigate("/login");
+  }
   return (
     <>
       <div className="Nav_container">
@@ -19,7 +25,7 @@ function NavComp() {
             <Nav.Link eventKey="link-1">Link</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="link-2">Link</Nav.Link>
+            <Nav.Link eventKey="link-2" onClick={handleLogOUt} >Log OUt</Nav.Link>
           </Nav.Item>
           <Nav.Item>
             <Nav.Link eventKey="disabled" disabled>
