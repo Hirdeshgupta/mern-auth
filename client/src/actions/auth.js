@@ -7,7 +7,7 @@ export const signin = (formData, router,setErrorMsg) => async (dispatch) => {
 
     dispatch({ type: AUTH, data });
     setErrorMsg("");
-    router.push('/');
+    router('/');
   } catch (error) {
     setErrorMsg(error.response.data.message);
     console.log(error.response);

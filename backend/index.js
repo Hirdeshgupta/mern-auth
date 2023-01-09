@@ -13,7 +13,7 @@ app.use(cors());
 
 app.use("/user", userRouter);
 
-const CONNECTION_URL = 'mongodb+srv://hirdesh:hirdesh@cluster0.2x5hy.mongodb.net/?retryWrites=true&w=majority';
+const CONNECTION_URL = process.env.MONGO_URI;
 const PORT = process.env.PORT|| 5000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
